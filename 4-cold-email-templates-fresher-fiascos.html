@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresher Fiascos - 4 Cold Email Templates</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#fef8f3;
+    --navy:#141a2c;
+    --navy-soft:#4a5270;
+    --gold:#f0a72a;
+    --gold-deep:#d98c14;
+    --line:#e7dccb;
+    --backdrop:#eceef2;
+    --shadow: 0 18px 46px -14px rgba(20,26,44,.28);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:var(--backdrop);
+    font-family:'Manrope',sans-serif;
+    color:var(--navy);
+  }
+
+  body{
+    display:flex;
+    justify-content:center;
+    padding:44px 16px;
+    min-height:100vh;
+  }
+
+  /* ---------- Screen-only print button ---------- */
+  .print-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:var(--gold);
+    color:var(--navy);
+    border:none;
+    padding:10px 18px;
+    border-radius:999px;
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.3px;
+    cursor:pointer;
+    box-shadow:0 8px 20px -6px rgba(20,26,44,.45);
+    transition:transform .18s ease, background .18s ease;
+    z-index:50;
+  }
+  .print-btn:hover{ background:var(--navy); color:var(--gold); transform:translateY(-2px); }
+  .print-btn:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+  /* ---------- Letterhead sheet ---------- */
+  .letterhead{
+    width:100%;
+    max-width:850px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Invisible on screen; only becomes a real table for print (see @media print) */
+  .print-table, .print-table thead, .print-table tbody, .print-table tfoot,
+  .print-table tr, .print-table td{ display:contents; }
+
+  /* ---------- Header ---------- */
+  .lh-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:30px 40px 24px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:0;
+  }
+
+  .brand-logo{
+    width:96px;
+    height:96px;
+    min-width:96px;
+    border-radius:50%;
+    object-fit:cover;
+    background:transparent;
+    box-shadow:0 0 0 3px var(--paper), 0 0 0 4.5px var(--gold);
+  }
+
+  .brand-logo-fallback{ display:flex; }
+
+  .brand-text{ min-width:0; }
+
+  .brand-title{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:clamp(2rem, 4.4vw, 2.7rem);
+    line-height:1;
+    margin:0;
+    letter-spacing:.5px;
+    white-space:nowrap;
+  }
+  .t-navy{ color:var(--navy); }
+  .t-gold{ color:var(--gold-deep); }
+
+  .brand-tagline{
+    margin:6px 0 0;
+    font-size:.82rem;
+    font-style:italic;
+    font-weight:500;
+    color:var(--navy-soft);
+    max-width:360px;
+  }
+
+  .social-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+  }
+
+  .social-link{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--gold);
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:transform .18s ease, background .18s ease, color .18s ease;
+    box-shadow:0 4px 10px -4px rgba(20,26,44,.4);
+  }
+  .social-link svg{ width:18px; height:18px; }
+  .social-link:hover{ background:var(--navy); color:var(--gold); transform:translateY(-3px) rotate(-4deg); }
+  .social-link:focus-visible{ outline:2.5px solid var(--gold-deep); outline-offset:2px; }
+
+  .social-row-footer .social-link{ width:34px; height:34px; }
+  .social-row-footer .social-link svg{ width:16px; height:16px; }
+
+  /* ---------- Decorative arc divider (echoes the logo's gold ring) ---------- */
+  .arc-divider{ width:100%; line-height:0; padding:0 40px; }
+  .arc-divider svg{ width:100%; height:14px; display:block; }
+  .arc-divider.flip svg{ transform:scaleY(-1); }
+
+  /* ---------- Body (kept blank on purpose) ---------- */
+  .lh-body{
+    flex:1;
+    min-height:320px;
+    padding:44px 44px;
+    line-height:1.75;
+    font-size:1rem;
+    color:var(--navy);
+  }
+
+  /* ---------- Footer ---------- */
+  .lh-footer{ display:flex; flex-direction:column; }
+
+  .pwa-banner{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    background:linear-gradient(90deg, var(--gold), var(--gold-deep));
+    color:var(--navy);
+    padding:14px 40px;
+    font-weight:700;
+    font-size:.9rem;
+    transition:filter .18s ease;
+  }
+  .pwa-banner:hover{ filter:brightness(1.05); }
+  .pwa-banner:focus-visible{ outline:3px solid var(--navy); outline-offset:-4px; }
+  .pwa-icon{ display:flex; flex-shrink:0; }
+  .pwa-icon svg{ width:22px; height:22px; stroke:var(--navy); }
+  .pwa-text{ flex:1; }
+  .pwa-text b{ font-weight:800; }
+  .pwa-arrow{ font-size:1.15rem; transition:transform .18s ease; flex-shrink:0; }
+  .pwa-banner:hover .pwa-arrow{ transform:translateX(4px); }
+
+  .footer-main{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:18px;
+    padding:22px 40px 14px;
+  }
+
+  .footer-contact{ display:flex; flex-direction:column; gap:6px; position:relative; }
+  .footer-label{
+    font-weight:800;
+    font-size:.66rem;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+  }
+  .email-row{ display:flex; align-items:center; gap:8px; }
+  .footer-email{
+    color:var(--navy);
+    font-weight:600;
+    font-size:.95rem;
+    text-decoration:none;
+    border-bottom:1px dashed var(--navy-soft);
+    padding-bottom:2px;
+  }
+  .footer-email:hover{ color:var(--gold-deep); border-color:var(--gold-deep); }
+  .copy-btn{
+    border:none;
+    background:transparent;
+    color:var(--navy-soft);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    padding:2px;
+    transition:color .18s ease;
+  }
+  .copy-btn svg{ width:15px; height:15px; }
+  .copy-btn:hover{ color:var(--gold-deep); }
+  .copy-toast{
+    position:absolute;
+    top:-22px;
+    left:0;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--gold-deep);
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .2s ease, transform .2s ease;
+    pointer-events:none;
+  }
+  .copy-toast.show{ opacity:1; transform:translateY(0); }
+
+  .footer-copy{
+    text-align:center;
+    font-size:.72rem;
+    color:var(--navy-soft);
+    margin:6px 20px 0;
+    padding:12px 0 26px;
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- Body content: hero image ---------- */
+  .body-hero{
+    display:flex;
+    justify-content:center;
+    margin-bottom:36px;
+  }
+  .body-hero-img{
+    width:100%;
+    max-width:560px;
+    display:block;
+  }
+  .body-hero-fallback{
+    width:100%;
+    max-width:560px;
+    min-height:160px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    border-radius:14px;
+    border:1.5px dashed var(--line);
+    background:var(--backdrop);
+    color:var(--navy-soft);
+    font-size:.82rem;
+    font-weight:600;
+  }
+
+  /* ---------- Body content: templates section ---------- */
+  .templates-heading{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:clamp(1.6rem, 3.4vw, 2.15rem);
+    color:var(--navy);
+    text-align:center;
+    margin:0 0 6px;
+  }
+  .templates-sub{
+    text-align:center;
+    font-size:.86rem;
+    color:var(--navy-soft);
+    margin:0 0 30px;
+  }
+
+  .template-card{
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#fffdf9;
+    padding:22px 24px 24px;
+    margin-bottom:20px;
+  }
+  .template-card:last-child{ margin-bottom:0; }
+
+  .template-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    font-size:1rem;
+    color:var(--navy);
+    margin:0 0 16px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+  .template-title-icon{ flex-shrink:0; }
+  .template-title-icon svg{ width:17px; height:17px; stroke:var(--gold-deep); }
+
+  .copy-box{ margin-bottom:14px; }
+  .copy-box:last-child{ margin-bottom:0; }
+  .copy-box-label{
+    display:block;
+    font-weight:800;
+    font-size:.64rem;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:6px;
+  }
+  .copy-box-content{
+    position:relative;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 48px 14px 16px;
+  }
+  .copy-text{
+    margin:0;
+    font-family:'Manrope',sans-serif;
+    font-size:.87rem;
+    line-height:1.65;
+    color:var(--navy);
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .subject-box .copy-text{ font-weight:700; }
+
+  .mini-copy-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:8px;
+    background:var(--gold);
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease, transform .18s ease;
+    box-shadow:0 4px 10px -4px rgba(20,26,44,.4);
+  }
+  .mini-copy-btn svg{ width:15px; height:15px; }
+  .mini-copy-btn:hover{ background:var(--navy); color:var(--gold); transform:translateY(-2px); }
+  .mini-copy-btn:focus-visible{ outline:2.5px solid var(--gold-deep); outline-offset:2px; }
+
+  .mini-copy-toast{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    font-size:.68rem;
+    font-weight:700;
+    color:var(--gold-deep);
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .2s ease, transform .2s ease;
+    pointer-events:none;
+  }
+  .mini-copy-toast.show{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Motion & accessibility ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:640px){
+    body{ padding:24px 10px; }
+    .print-btn{ top:10px; right:10px; padding:8px 14px; font-size:.75rem; }
+    .lh-header{
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      padding:26px 20px 20px;
+    }
+    .brand{ flex-direction:column; text-align:center; }
+    .brand-logo{ width:76px; height:76px; min-width:76px; }
+    .brand-tagline{ max-width:280px; }
+    .social-row{ margin-top:4px; }
+    .arc-divider{ padding:0 20px; }
+    .lh-body{ padding:32px 22px; min-height:220px; }
+    .body-hero{ margin-bottom:26px; }
+    .templates-sub{ margin-bottom:22px; }
+    .template-card{ padding:18px 16px 20px; margin-bottom:16px; }
+    .copy-box-content{ padding:12px 42px 12px 12px; }
+    .copy-text{ font-size:.83rem; }
+    .pwa-banner{ padding:14px 20px; font-size:.82rem; flex-wrap:wrap; text-align:center; justify-content:center; }
+    .footer-main{ flex-direction:column; text-align:center; align-items:center; padding:22px 20px 10px; }
+    .footer-copy{ margin:6px 12px 0; padding:12px 0 22px; }
+  }
+
+  @media (max-width:380px){
+    .social-link{ width:34px; height:34px; }
+    .social-link svg{ width:16px; height:16px; }
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    @page{ size:auto; margin:0; }
+    html,body{ background:var(--paper) !important; padding:0; margin:0; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact; }
+    .print-btn{ display:none; }
+    .letterhead{ box-shadow:none; border:none; border-radius:0; max-width:100%; background:var(--paper) !important; overflow:visible !important; }
+    .social-link{ background:var(--gold) !important; color:var(--navy) !important; box-shadow:none !important; }
+    .brand-logo-fallback{ background:transparent !important; }
+    .pwa-banner{ background:linear-gradient(90deg, var(--gold), var(--gold-deep)) !important; color:var(--navy) !important; }
+    a{ color:inherit !important; }
+    .template-card{ page-break-inside:avoid; break-inside:avoid; background:var(--paper) !important; }
+    .copy-box-content{ background:#fff !important; }
+    .mini-copy-btn{ display:none; }
+    .mini-copy-toast{ display:none; }
+
+    /* Repeat header & footer on every printed page using REAL <thead>/<tfoot>
+       table semantics — the only method every browser's print engine is
+       guaranteed to repeat correctly, regardless of content length or paper size. */
+    .print-table{ display:table; width:100%; border-collapse:collapse; }
+    .print-table thead{ display:table-header-group; }
+    .print-table tbody{ display:table-row-group; }
+    .print-table tfoot{ display:table-footer-group; }
+    .print-table tr{ display:table-row; }
+    .print-table td{ display:table-cell; padding:0; }
+  }
+</style>
+</head>
+<body>
+
+  <button class="print-btn" id="printBtn" type="button">🖨️ Print / Save as PDF</button>
+
+  <main class="letterhead">
+
+    <table class="print-table">
+    <thead class="print-head-group"><tr><td>
+    <!-- ============== HEADER ============== -->
+    <header class="lh-header">
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/FF_Logo_Circle.png"
+          alt="Fresher Fiascos logo"
+          onerror="useLogoFallback(this)">
+        <div class="brand-text">
+          <h1 class="brand-title"><span class="t-navy">Fresher</span><span class="t-gold">Fiascos</span></h1>
+          <p class="brand-tagline">Every rejection has a lesson. Every fiasco has a comeback.</p>
+        </div>
+      </div>
+
+      <nav class="social-row" aria-label="Follow Fresher Fiascos">
+        <a class="social-link" href="https://www.instagram.com/fresher_fiascos?igsh=MTlraHl4N3JyenU2" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.5"/>
+            <circle cx="12" cy="12" r="4.3"/>
+            <circle cx="16.7" cy="7.3" r="0.6" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/share/1T88Ci2wHH/" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 21v-7.2h2.4l.36-2.8h-2.76v-1.8c0-.81.22-1.36 1.39-1.36h1.48V5.34C16.87 5.24 16 5.16 15 5.16c-2.28 0-3.85 1.39-3.85 3.95v2.06H8.7v2.8h2.45V21"/>
+          </svg>
+        </a>
+        <a class="social-link" href="https://www.whatsapp.com/channel/0029Vb89ermBA1eqcDBmZL38?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExTkV4bUR0RUJxQmVQaXA4bnNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR4rgyfL-xE92fJVGf-05LCKuD76ievSDTe5WuFrln8pNkNvHTkswBykxPXQMg_aem_tXrYXXXfjJret54MYaT-hg" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.5a8.5 8.5 0 0 0-7.35 12.8L3.5 20.5l4.35-1.14A8.5 8.5 0 1 0 12 3.5Z"/>
+            <path d="M8.7 8.6c.15-.35.3-.36.5-.36h.4c.14 0 .3 0 .43.3.15.34.5 1.15.55 1.24.06.13.08.24 0 .38-.07.13-.1.2-.2.32-.1.12-.22.27-.31.36-.1.1-.2.2-.09.4.12.2.55.9 1.18 1.46.8.72 1.48.94 1.68 1.05.2.1.32.09.44-.05.13-.14.53-.6.67-.8.14-.2.27-.16.45-.1.19.07 1.2.56 1.4.66.2.1.34.15.38.24.05.1.05.53-.13.9-.19.38-1.02.75-1.4.78-.36.04-.82.06-1.94-.4-1.63-.66-2.68-2.28-2.77-2.4-.08-.1-.68-.9-.68-1.72 0-.82.43-1.22.58-1.4Z" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a class="social-link" href="https://t.me/fresherfiascos" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 3.3 2.6 10.6c-.85.34-.85 1.55.02 1.87l4.4 1.6 1.7 5.2c.26.79 1.27 1 1.82.38l2.4-2.77 4.4 3.25c.7.52 1.7.13 1.87-.72L21.9 4.2c.15-.77-.6-1.38-1.34-1.09Z"/>
+            <path d="M8.9 13.9 17.7 6"/>
+          </svg>
+        </a>
+        <a class="social-link" href="http://www.youtube.com/@FresherFiascos" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.6" y="6.2" width="18.8" height="11.6" rx="3.8"/>
+            <path d="M10.4 9.7v4.6l4.2-2.3Z" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+      </nav>
+    </header>
+
+    <div class="arc-divider" aria-hidden="true">
+      <svg viewBox="0 0 800 14" preserveAspectRatio="none">
+        <path d="M0 7 Q 400 -7 800 7" stroke="#f0a72a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    </td></tr></thead>
+
+    <tbody class="print-body-group"><tr><td>
+    <!-- ============== BODY (intentionally blank) ==============
+         Add your own letter content/HTML inside this <section>. -->
+    <section class="lh-body" id="lhBody">
+
+      <!-- ============== HERO IMAGE ==============
+           Replace the src below with the RAW GitHub link to your image,
+           e.g. https://raw.githubusercontent.com/<user>/<repo>/refs/heads/main/<path-to-image>.png
+           (Right-click the image on GitHub → "Copy link address" only works on the raw file view,
+           so open the file, click "Raw", then copy that URL.) -->
+      <div class="body-hero">
+        <img
+          class="body-hero-img"
+          src="https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/4%20Cold%20Email%20Templates%20illustrate.png"
+          alt="Cold email templates for freshers"
+          onerror="useHeroFallback(this)">
+      </div>
+
+      <!-- ============== EMAIL TEMPLATES ============== -->
+      <h2 class="templates-heading">4 Cold Email Templates Every Fresher Needs</h2>
+      <p class="templates-sub">Copy the subject and body, personalise the [brackets], and hit send.</p>
+
+      <!-- Template 1 -->
+      <div class="template-card">
+        <h3 class="template-title">
+          <span class="template-title-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="m4 7 8 6 8-6"/></svg>
+          </span>
+          Template 1: Applying Directly to HR
+        </h3>
+
+        <div class="copy-box subject-box">
+          <span class="copy-box-label">Subject</span>
+          <div class="copy-box-content">
+            <p class="copy-text" id="subj-1">Application for Software Engineer | [Your Name]</p>
+            <button class="mini-copy-btn" type="button" data-copy-target="subj-1" aria-label="Copy subject line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+
+        <div class="copy-box body-box">
+          <span class="copy-box-label">Email Body</span>
+          <div class="copy-box-content">
+            <div class="copy-text" id="body-1">Hi [Recruiter's Name],
+
+I hope you're doing well.
+
+I came across the opening for the [Role] at [Company] and found it closely aligned with my skills and experience.
+
+I have attached my resume for your review. I would really appreciate it if you could consider my profile for the role.
+
+Thank you for your time. I look forward to hearing from you.
+
+Best regards,
+[Your Name]
+Phone: XXXXXXXX
+LinkedIn: [Link]</div>
+            <button class="mini-copy-btn" type="button" data-copy-target="body-1" aria-label="Copy email body">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template 2 -->
+      <div class="template-card">
+        <h3 class="template-title">
+          <span class="template-title-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="m4 7 8 6 8-6"/></svg>
+          </span>
+          Template 2: Asking an Employee for a Referral
+        </h3>
+
+        <div class="copy-box subject-box">
+          <span class="copy-box-label">Subject</span>
+          <div class="copy-box-content">
+            <p class="copy-text" id="subj-2">Referral Request for [Role] at [Company]</p>
+            <button class="mini-copy-btn" type="button" data-copy-target="subj-2" aria-label="Copy subject line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+
+        <div class="copy-box body-box">
+          <span class="copy-box-label">Email Body</span>
+          <div class="copy-box-content">
+            <div class="copy-text" id="body-2">Hi [Name],
+
+I hope you're doing well.
+
+I noticed you're working at [Company] and wanted to reach out regarding the [Role] opening.
+
+I believe my experience in [mention 1–2 relevant skills/projects] aligns well with the role. If you feel my profile is a good fit, I'd be grateful if you could refer me.
+
+I've attached my resume for your convenience.
+
+Thank you for your time and consideration.
+
+Best regards,
+[Your Name]</div>
+            <button class="mini-copy-btn" type="button" data-copy-target="body-2" aria-label="Copy email body">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template 3 -->
+      <div class="template-card">
+        <h3 class="template-title">
+          <span class="template-title-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="m4 7 8 6 8-6"/></svg>
+          </span>
+          Template 3: Reaching Out to a Hiring Manager
+        </h3>
+
+        <div class="copy-box subject-box">
+          <span class="copy-box-label">Subject</span>
+          <div class="copy-box-content">
+            <p class="copy-text" id="subj-3">Interested in the [Role] Position</p>
+            <button class="mini-copy-btn" type="button" data-copy-target="subj-3" aria-label="Copy subject line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+
+        <div class="copy-box body-box">
+          <span class="copy-box-label">Email Body</span>
+          <div class="copy-box-content">
+            <div class="copy-text" id="body-3">Hi [Hiring Manager's Name],
+
+I recently came across the [Role] opening on your team and wanted to express my interest.
+
+With experience in [mention relevant experience], I've worked on projects involving [brief achievement or technology]. I believe I can contribute meaningfully to your team.
+
+I've attached my resume and would appreciate the opportunity to discuss how I can add value.
+
+Looking forward to hearing from you.
+
+Regards,
+[Your Name]</div>
+            <button class="mini-copy-btn" type="button" data-copy-target="body-3" aria-label="Copy email body">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template 4 -->
+      <div class="template-card">
+        <h3 class="template-title">
+          <span class="template-title-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="m4 7 8 6 8-6"/></svg>
+          </span>
+          Template 4: Follow-up Email (5–7 Days Later)
+        </h3>
+
+        <div class="copy-box subject-box">
+          <span class="copy-box-label">Subject</span>
+          <div class="copy-box-content">
+            <p class="copy-text" id="subj-4">Following Up – Application for [Role]</p>
+            <button class="mini-copy-btn" type="button" data-copy-target="subj-4" aria-label="Copy subject line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+
+        <div class="copy-box body-box">
+          <span class="copy-box-label">Email Body</span>
+          <div class="copy-box-content">
+            <div class="copy-text" id="body-4">Hi [Name],
+
+I hope you're doing well.
+
+Just following up on my previous email regarding the [Role] position.
+
+I understand you must be busy, but I wanted to check if you had a chance to review my application. I'd appreciate any update regarding the hiring process.
+
+Thank you once again for your time.
+
+Best regards,
+[Your Name]</div>
+            <button class="mini-copy-btn" type="button" data-copy-target="body-4" aria-label="Copy email body">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/></svg>
+            </button>
+            <span class="mini-copy-toast">Copied!</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    </td></tr></tbody>
+
+    <tfoot class="print-foot-group"><tr><td>
+    <div class="arc-divider flip" aria-hidden="true">
+      <svg viewBox="0 0 800 14" preserveAspectRatio="none">
+        <path d="M0 7 Q 400 -7 800 7" stroke="#f0a72a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="lh-footer">
+
+      <a class="pwa-banner" href="https://fresher-fiascos-early-access.vercel.app/" target="_blank" rel="noopener">
+        <span class="pwa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="3.5" width="14" height="17" rx="2.2"/>
+            <rect x="8.3" y="2" width="7.4" height="3" rx="1"/>
+            <path d="M8 10.5h8M8 13.5h8M8 16.5h5"/>
+          </svg>
+        </span>
+        <span class="pwa-text"><b>Fresher Fiascos App (PWA)</b> is launching soon — click here to fill the Early Access Form</span>
+        <span class="pwa-arrow">→</span>
+      </a>
+
+      <div class="footer-main">
+        <div class="footer-contact">
+          <span class="footer-label">Contact us</span>
+          <div class="email-row">
+            <a class="footer-email" href="mailto:fresher.fiascos@gmail.com" id="emailLink">fresher.fiascos@gmail.com</a>
+            <button class="copy-btn" id="copyBtn" type="button" aria-label="Copy email address">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8.5" y="8.5" width="11" height="11" rx="2"/>
+                <path d="M5.5 15.5H4.8A1.8 1.8 0 0 1 3 13.7V4.8A1.8 1.8 0 0 1 4.8 3h8.9a1.8 1.8 0 0 1 1.8 1.8v.7"/>
+              </svg>
+            </button>
+          </div>
+          <span class="copy-toast" id="copyToast">Copied!</span>
+        </div>
+
+        <nav class="social-row social-row-footer" aria-label="Follow Fresher Fiascos">
+          <a class="social-link" href="https://www.instagram.com/fresher_fiascos?igsh=MTlraHl4N3JyenU2" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.5"/>
+              <circle cx="12" cy="12" r="4.3"/>
+              <circle cx="16.7" cy="7.3" r="0.6" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a class="social-link" href="https://www.facebook.com/share/1T88Ci2wHH/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 21v-7.2h2.4l.36-2.8h-2.76v-1.8c0-.81.22-1.36 1.39-1.36h1.48V5.34C16.87 5.24 16 5.16 15 5.16c-2.28 0-3.85 1.39-3.85 3.95v2.06H8.7v2.8h2.45V21"/>
+            </svg>
+          </a>
+          <a class="social-link" href="https://www.whatsapp.com/channel/0029Vb89ermBA1eqcDBmZL38?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExTkV4bUR0RUJxQmVQaXA4bnNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR4rgyfL-xE92fJVGf-05LCKuD76ievSDTe5WuFrln8pNkNvHTkswBykxPXQMg_aem_tXrYXXXfjJret54MYaT-hg" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3.5a8.5 8.5 0 0 0-7.35 12.8L3.5 20.5l4.35-1.14A8.5 8.5 0 1 0 12 3.5Z"/>
+              <path d="M8.7 8.6c.15-.35.3-.36.5-.36h.4c.14 0 .3 0 .43.3.15.34.5 1.15.55 1.24.06.13.08.24 0 .38-.07.13-.1.2-.2.32-.1.12-.22.27-.31.36-.1.1-.2.2-.09.4.12.2.55.9 1.18 1.46.8.72 1.48.94 1.68 1.05.2.1.32.09.44-.05.13-.14.53-.6.67-.8.14-.2.27-.16.45-.1.19.07 1.2.56 1.4.66.2.1.34.15.38.24.05.1.05.53-.13.9-.19.38-1.02.75-1.4.78-.36.04-.82.06-1.94-.4-1.63-.66-2.68-2.28-2.77-2.4-.08-.1-.68-.9-.68-1.72 0-.82.43-1.22.58-1.4Z" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a class="social-link" href="https://t.me/fresherfiascos" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 3.3 2.6 10.6c-.85.34-.85 1.55.02 1.87l4.4 1.6 1.7 5.2c.26.79 1.27 1 1.82.38l2.4-2.77 4.4 3.25c.7.52 1.7.13 1.87-.72L21.9 4.2c.15-.77-.6-1.38-1.34-1.09Z"/>
+              <path d="M8.9 13.9 17.7 6"/>
+            </svg>
+          </a>
+          <a class="social-link" href="http://www.youtube.com/@FresherFiascos" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.6" y="6.2" width="18.8" height="11.6" rx="3.8"/>
+              <path d="M10.4 9.7v4.6l4.2-2.3Z" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
+
+      <p class="footer-copy">© <span id="year"></span> Fresher Fiascos · Every rejection has a lesson. Every fiasco has a comeback.</p>
+    </footer>
+    </td></tr></tfoot>
+    </table>
+
+  </main>
+
+<script>
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Print / Save as PDF
+  document.getElementById('printBtn').addEventListener('click', function () {
+    window.print();
+  });
+
+  // Copy email to clipboard
+  var copyBtn = document.getElementById('copyBtn');
+  var copyToast = document.getElementById('copyToast');
+  copyBtn.addEventListener('click', function () {
+    var email = 'fresher.fiascos@gmail.com';
+    var showToast = function () {
+      copyToast.classList.add('show');
+      setTimeout(function () { copyToast.classList.remove('show'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(showToast).catch(showToast);
+    } else {
+      showToast();
+    }
+  });
+
+  // Copy buttons for the email template subject/body boxes
+  document.querySelectorAll('.mini-copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var targetEl = document.getElementById(btn.getAttribute('data-copy-target'));
+      if (!targetEl) return;
+      var text = targetEl.textContent;
+      var toast = btn.parentElement.querySelector('.mini-copy-toast');
+      var showToast = function () {
+        if (!toast) return;
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showToast).catch(showToast);
+      } else {
+        showToast();
+      }
+    });
+  });
+
+  // If the hero image link is broken/not set yet, fall back to a
+  // labelled placeholder so the letterhead never shows a broken image icon.
+  function useHeroFallback(img) {
+    img.onerror = null;
+    var wrap = document.createElement('div');
+    wrap.className = 'body-hero-fallback';
+    wrap.textContent = 'Add your GitHub image link here (see comment in the HTML above the <img> tag)';
+    img.replaceWith(wrap);
+  }
+
+  // If the GitHub logo image link is broken/not set yet, fall back to
+  // a redrawn badge so the letterhead never shows a broken image icon.
+  function useLogoFallback(img) {
+    img.onerror = null;
+    var wrap = document.createElement('div');
+    wrap.className = 'brand-logo brand-logo-fallback';
+    wrap.setAttribute('role', 'img');
+    wrap.setAttribute('aria-label', 'Fresher Fiascos logo');
+    wrap.innerHTML =
+      '<svg viewBox="0 0 100 100" width="100%" height="100%">' +
+        '<circle cx="50" cy="50" r="47" fill="transparent"/>' +
+        '<circle cx="50" cy="50" r="47" fill="none" stroke="#f0a72a" stroke-width="4" stroke-dasharray="230 70" transform="rotate(-90 50 50)"/>' +
+        '<text x="50" y="60" font-family="Manrope, sans-serif" font-weight="800" font-size="34" fill="#f0a72a" text-anchor="middle">FF</text>' +
+      '</svg>';
+    img.replaceWith(wrap);
+  }
+</script>
+</body>
+</html>
