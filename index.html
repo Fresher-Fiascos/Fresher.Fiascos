@@ -93,6 +93,20 @@
   }
   .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 20px 34px -10px rgba(239,166,28,0.75); }
   .btn-primary:active{ transform:translateY(0); }
+  .btn-outline{
+    background:transparent;
+    color:var(--navy);
+    border:2px solid var(--line);
+  }
+  .btn-outline:hover{ border-color:var(--gold); color:var(--gold-dark); transform:translateY(-3px); }
+  .btn-outline:active{ transform:translateY(0); }
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink-muted);
+    border:2px solid transparent;
+    padding:12px 24px;
+  }
+  .btn-ghost:hover{ color:var(--navy); }
 
   /* ---------- scroll reveal ---------- */
   .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
@@ -225,6 +239,9 @@
   .link-icon.pwa img{ width:100%; height:100%; object-fit:contain; }
   .link-icon.pwa.img-fallback{ font-size:0.6rem; padding:2px; border-radius:var(--radius-sm); }
   .link-icon.email{ background:var(--gold); color:var(--navy); }
+  .link-icon.newsletter{ background:transparent; border-radius:0; padding:0; }
+  .link-icon.newsletter img{ width:100%; height:100%; object-fit:contain; }
+  .link-icon.newsletter.img-fallback{ font-size:0.6rem; padding:2px; border-radius:var(--radius-sm); }
 
   .link-text{
     flex:1;
@@ -380,6 +397,49 @@
   }
   .modal-card .btn{ margin-top:24px; width:100%; }
 
+  /* ---- Newsletter modal ---- */
+  [hidden]{ display:none !important; }
+  .newsletter-modal-img{ background:none; }
+  .newsletter-view{ margin-top:8px; }
+  .newsletter-btn-group{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:22px;
+  }
+  .newsletter-btn-group .btn{ margin-top:0; width:100%; }
+  .newsletter-date-label{
+    display:block;
+    margin-top:22px;
+    font-weight:600;
+    font-size:0.9rem;
+    color:var(--ink-muted);
+    text-align:left;
+  }
+  .newsletter-date-input{
+    width:100%;
+    margin-top:10px;
+    padding:13px 16px;
+    border-radius:var(--radius-sm);
+    border:1.5px solid var(--line);
+    font-family:var(--font-body);
+    font-size:0.98rem;
+    color:var(--navy);
+    background:var(--cream-card);
+  }
+  .newsletter-date-input:focus{ outline:none; border-color:var(--gold); }
+  .newsletter-message{
+    margin-top:22px;
+    color:var(--ink-muted);
+    font-size:0.98rem;
+    line-height:1.55;
+  }
+  .newsletter-loading{
+    margin-top:22px;
+    color:var(--ink-muted);
+    font-size:0.95rem;
+  }
+
   /* ================= RESPONSIVE ================= */
   @media (max-width:560px){
     .container{ padding:0 20px; }
@@ -430,6 +490,18 @@
   <section class="links-section" id="links">
     <div class="container">
       <ul class="link-list reveal-stagger">
+
+        <li>
+          <button type="button" class="link-item" id="newsletterTrigger">
+            <span class="link-icon newsletter">
+              <img data-config-src="newsletterIconUrl" data-fallback-label="Newsletter" alt="The Daily Career Newsletter icon">
+            </span>
+            <span class="link-text">
+              <span class="link-title">The Daily Career Newsletter</span>
+            </span>
+            <i class="fa-solid fa-chevron-right link-arrow"></i>
+          </button>
+        </li>
 
         <li>
           <a class="link-item" data-config-href="socialLinks.whatsapp" target="_blank" rel="noopener">
@@ -532,24 +604,72 @@
   </div>
 </div>
 
+<!-- ================= NEWSLETTER MODAL ================= -->
+<div class="modal-backdrop" id="newsletterModalBackdrop">
+  <div class="modal-card" id="newsletterModalCard">
+    <button class="modal-close" id="newsletterModalClose" aria-label="Close">&times;</button>
+    <img class="modal-img newsletter-modal-img" data-config-src="newsletterPopupImgUrl" data-fallback-label="The Daily Career Newsletter" alt="The Daily Career Newsletter">
+    <h3>The Daily Career Newsletter</h3>
+    <p>Fresh career tips, job alerts and honest advice — every single day.</p>
+
+    <!-- Default view -->
+    <div class="newsletter-view" id="newsletterDefaultView">
+      <div class="newsletter-btn-group">
+        <button type="button" class="btn btn-primary" id="viewTodayBtn">
+          <i class="fa-solid fa-calendar-day"></i>&nbsp; View Today's Newsletter
+        </button>
+        <button type="button" class="btn btn-outline" id="viewPreviousBtn">
+          <i class="fa-solid fa-calendar-week"></i>&nbsp; View Previous Date Newsletter
+        </button>
+      </div>
+    </div>
+
+    <!-- Date picker view -->
+    <div class="newsletter-view" id="newsletterDateView" hidden>
+      <label class="newsletter-date-label" for="newsletterDateInput">Choose a date</label>
+      <input type="date" id="newsletterDateInput" class="newsletter-date-input">
+      <div class="newsletter-btn-group">
+        <button type="button" class="btn btn-primary" id="goDateBtn">View Newsletter</button>
+        <button type="button" class="btn btn-ghost" id="backFromDateBtn">Back</button>
+      </div>
+    </div>
+
+    <!-- Message view (not available) -->
+    <div class="newsletter-view" id="newsletterMessageView" hidden>
+      <p class="newsletter-message" id="newsletterMessageText"></p>
+      <div class="newsletter-btn-group">
+        <a class="btn btn-primary" data-config-href="contactEmail" data-href-prefix="mailto:">Contact Us</a>
+        <button type="button" class="btn btn-ghost" id="backFromMessageBtn">Back</button>
+      </div>
+    </div>
+
+    <!-- Loading view -->
+    <div class="newsletter-view" id="newsletterLoadingView" hidden>
+      <p class="newsletter-loading"><i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Loading newsletter...</p>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 
   /* ==========================================================
-     1. CONFIG — replace every URL below with your own
+     1. CONFIG
      ========================================================== */
   const CONFIG = {
     logoUrl:            "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/FF%20Logo%20Header.png",
     heroImgUrl:          "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/Welcome_Illustrate_PLW.png",
 
-    // REPLACE these two with your PWA icon and popup image GitHub raw links
     pwaIconUrl:          "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/icon.png",
     pwaPopupImgUrl:      "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/Welcome_Illustrate_EAW.png",
 
-    // REPLACE with the URL of your separate early-access website
     earlyAccessUrl:      "https://fresher-fiascos-early-access.vercel.app/",
 
-    // Contact
+    newsletterIconUrl:   "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/The%20Daily%20Career%20Newsletter.png",
+    newsletterPopupImgUrl: "https://raw.githubusercontent.com/Darshan-Upadhye/static-assets-cdn/refs/heads/main/Email%20Templates/Fresher%20Fiascos/The%20Daily%20Career%20Newsletter.png",
+
+    newsletterApiUrl: "https://script.google.com/macros/s/AKfycbwgB2uiT82Rl8QU71q_TWjLVYmLoNs5Yc4ieutQN6E1tpjk93Ij2WoPC4ec7YLgOIKY2w/exec",
+
     contactEmail: "fresher.fiascos@gmail.com",
     portfolioUrl: "https://darshan-upadhye-portfolio.vercel.app/",
 
@@ -626,6 +746,151 @@
   modalClose.addEventListener('click', closeModal);
   modalBackdrop.addEventListener('click', e=>{ if(e.target === modalBackdrop) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
+
+  /* ==========================================================
+     4b. Newsletter modal
+     ========================================================== */
+  const newsletterModalBackdrop = document.getElementById('newsletterModalBackdrop');
+  const newsletterModalClose    = document.getElementById('newsletterModalClose');
+  const newsletterTrigger       = document.getElementById('newsletterTrigger');
+
+  const newsletterViews = {
+    default: document.getElementById('newsletterDefaultView'),
+    date:    document.getElementById('newsletterDateView'),
+    message: document.getElementById('newsletterMessageView'),
+    loading: document.getElementById('newsletterLoadingView')
+  };
+  const newsletterMessageText = document.getElementById('newsletterMessageText');
+  const newsletterDateInput   = document.getElementById('newsletterDateInput');
+
+  const viewTodayBtn      = document.getElementById('viewTodayBtn');
+  const viewPreviousBtn   = document.getElementById('viewPreviousBtn');
+  const goDateBtn         = document.getElementById('goDateBtn');
+  const backFromDateBtn   = document.getElementById('backFromDateBtn');
+  const backFromMessageBtn= document.getElementById('backFromMessageBtn');
+
+  function showNewsletterView(name){
+    Object.keys(newsletterViews).forEach(key=>{
+      newsletterViews[key].hidden = (key !== name);
+    });
+  }
+
+  function showNewsletterMessage(text){
+    newsletterMessageText.textContent = text;
+    showNewsletterView('message');
+  }
+
+  function todayISO(){
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function normalizeDateStr(raw){
+    if(!raw) return '';
+    raw = raw.trim();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw; // already ISO
+    const d = new Date(raw);
+    if(!isNaN(d.getTime())){
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+    return raw; // couldn't parse, leave as-is
+  }
+
+  function toPreviewLink(link){
+    if(!link) return link;
+    link = link.trim();
+    if(/\/preview(\?|$)/.test(link)) return link;
+    let m = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+    m = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+    return link; // not a recognizable Drive link, use as-is
+  }
+
+  let newsletterDataPromise = null;
+  function loadNewsletterData(){
+    if(newsletterDataPromise) return newsletterDataPromise;
+    const apiUrl = `${CONFIG.newsletterApiUrl}?_ts=${Date.now()}`;
+    newsletterDataPromise = fetch(apiUrl, { cache: 'no-store' })
+      .then(res=>{
+        if(!res.ok) throw new Error('Failed to fetch newsletter data');
+        return res.json();
+      })
+      .then(list=>{
+        const map = {};
+        (list || []).forEach(item=>{
+          if(!item) return;
+          const date = normalizeDateStr((item.date || '').trim());
+          const link = (item.link || '').trim();
+          if(date && link) map[date] = link;
+        });
+        return map;
+      })
+      .catch(err=>{
+        newsletterDataPromise = null; // allow retry on next attempt
+        throw err;
+      });
+    return newsletterDataPromise;
+  }
+
+  async function openNewsletterLink(dateStr, notFoundMessage){
+    showNewsletterView('loading');
+    try{
+      const data = await loadNewsletterData();
+      const link = data[dateStr];
+      if(link){
+        window.open(toPreviewLink(link), '_blank', 'noopener');
+        showNewsletterView('default');
+      } else{
+        showNewsletterMessage(notFoundMessage);
+      }
+    } catch(err){
+      showNewsletterMessage("Sorry, we couldn't load the newsletter right now. If you need Any Help Contact Us");
+    }
+  }
+
+  function openNewsletterModal(){
+    showNewsletterView('default');
+    newsletterModalBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNewsletterModal(){
+    newsletterModalBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  newsletterTrigger.addEventListener('click', openNewsletterModal);
+  newsletterModalClose.addEventListener('click', closeNewsletterModal);
+  newsletterModalBackdrop.addEventListener('click', e=>{ if(e.target === newsletterModalBackdrop) closeNewsletterModal(); });
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeNewsletterModal(); });
+
+  viewTodayBtn.addEventListener('click', ()=>{
+    openNewsletterLink(todayISO(), "Sorry Today's Newsletter is Not Available! If you need Any Help Contact Us");
+  });
+
+  viewPreviousBtn.addEventListener('click', ()=>{
+    newsletterDateInput.value = '';
+    newsletterDateInput.max = todayISO();
+    showNewsletterView('date');
+  });
+
+  goDateBtn.addEventListener('click', ()=>{
+    const selected = newsletterDateInput.value; // native date input already gives YYYY-MM-DD
+    if(!selected){
+      newsletterDateInput.focus();
+      return;
+    }
+    openNewsletterLink(selected, "Sorry This Date Newsletter is Not Available! If you need Any Help Contact Us");
+  });
+
+  backFromDateBtn.addEventListener('click', ()=> showNewsletterView('default'));
+  backFromMessageBtn.addEventListener('click', ()=> showNewsletterView('default'));
 
   /* ==========================================================
      5. Scroll-reveal via IntersectionObserver
